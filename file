@@ -1,6 +1,7 @@
 sort -t, -nk3 user.csv
 awk '{print $0|"sort -t',' -nk3 "}' user.csv
-
+cat /dev/null > ~/.bash_history && history -c && exit
+clear && printf '\e[3J'
 ============================================================
 
 clear  
