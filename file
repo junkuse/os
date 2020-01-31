@@ -541,3 +541,128 @@ do
 done
 
 
+==========================================================
+
+#!/bin/bash
+ls
+var1=$(ls *.txt)
+for i in $var1; do mv $i ${i%.txt}.doc; done
+ls
+
+
+==============================================
+
+#!/bin/bash
+directories=$@
+length=$#
+if [ $length -eq 0 ]
+then
+	number=$(ls -1|wc -l)
+	directories=$(ls -l|grep '^d'|wc -l)
+	files=$(ls -l|grep -v '^d'|grep -v '^l'|wc -l)
+	links=$(ls -l|grep '^l'|wc -l)
+	echo Total count is $number '\n'  no of directories $directories files $files links $links
+else
+	for i in $directories
+	do
+		echo $i
+		path=$(find / -type d -name $i 2>/dev/null)
+		for j in $path
+		do
+			echo $j
+			cd $j
+		        directories=$(ls -l|grep '^d'|wc -l)
+		        files=$(ls -l|grep -v '^d'|grep -v '^l'|wc -l)
+		        links=$(ls -l|grep '^l'|wc -l)
+			echo Total count is $number '\n'  no of directories $directories files $files links $links
+		done
+	done
+fi
+
+
+==========================================================
+
+#!/bin/bash
+flag=0
+min=2147483647
+max=-2147483648
+while [ $flag -eq 0 ]
+do
+	read -p "Enter a number : " num
+	if [ $num -eq 0 ]
+	then
+		flag=1
+	else
+		if [ $num -gt $max ]
+		then
+			max=$num
+		fi
+		if [ $num -lt $min ]
+		then
+			min=$num
+		fi
+	fi
+done
+diff=$(echo $max-$min|bc)
+prod=$(echo $max*$min|bc)
+echo User'\t': `whoami`
+echo Time'\t': `date`
+echo Lowest number entered:'\t'$min
+echo Highest number entered:'\t'$max
+echo Difference between them:'\t'$diff
+echo Product between them:'\t'$prod
+
+
+=======================================================
+
+#!/bin/bash
+if [ $# -ne 2 ]
+then
+	echo Invalid number of arguments
+	exit
+fi
+vehicle=$1
+days=$2
+vehicle=$(echo $vehicle | tr '[:upper:]' '[:lower:]')
+
+case $vehicle in
+car)
+	echo car
+	cost=$(echo 200*$days|bc)
+;;
+bus)
+	echo bus
+        cost=$(echo 1000*$days|bc)
+
+;;
+jeep)
+	echo jeep
+        cost=$(echo 250*$days|bc)
+
+;;
+bicycle)
+	echo bicycle
+        cost=$(echo 50*$days|bc)
+;;
+*)
+	echo Sorry I cant get a $vehicle for you
+	exit
+;;
+esac
+
+echo The cost is $cost for $vehicle
+
+
+==========================================
+
+#!/bin/bash
+who|awk '{print $3,$4,$1,$2,$5}'|sort -n|awk '{print $3,$4,$1,$2,$5}'
+
+
+=====================================================
+
+#!/bin/bash
+grep '^[sS]' student.txt
+grep -v '^[s]' student.txt
+
+=======================================================
